@@ -141,7 +141,25 @@ After finishing your required elements, you can push your work further. These go
 Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. You might prepare by writing down your own answers before hand.
 
 1. The core features of Node.js and Express and why they are useful.
+
+Node.js is a runtime environment that was extracted from Chrome. It lets developers run JS without a browser.
+Express is an NPM library. It's a Node.js framework that sits on top of HTTP where it takes care of a lot boiler plate functions.
+
 1. Understand and explain the use of Middleware.
+
+A middleware is a function that intercepts a process, runs some code, and continues (or does not continue) with that original process. It is an array of functions that get executed in the order that they are introduced.
+
 1. The basic principles of the REST architectural style.
+
+Representational State Transfer (REST) - A convention, or agreed-upon recommendation, for naming and organizing API endpoints.
+- Endpoints should have a single resource per endpoint.
+- Each resource should have a unique URL.
+- URL should utilize HTTP methods for operations.
+
 1. Understand and explain the use of Express Routers.
+
+Express Routers help in mapping incoming requests to the appropriate request handler based on the URL and HTTP Method used. Routing makes building RESTful Web APIs simpler. We can have a single URL per resource and execute different code based on the HTTP Method/Verb used.
+
 1. Describe tooling used to manually test the correctness of an API.
+
+To test the correctness of an API, we use tools like Insomnia. It acts as the client by allowing us to transmit our requests to the server without having to build a full front-end application
