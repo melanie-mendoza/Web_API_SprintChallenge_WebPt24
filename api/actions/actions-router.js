@@ -36,7 +36,7 @@ router.put("/api/actions/:id", checkActionData(), checkIfActionComplete(), (req,
         if (action) {
             res.status(200).json(action)
         } else {
-            res.status(404).json({
+            res.status(400).json({
                 message: "The action could not be found.",
             })
         }

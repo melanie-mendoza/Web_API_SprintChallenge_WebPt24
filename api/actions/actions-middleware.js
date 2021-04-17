@@ -1,6 +1,6 @@
 const actions = require("./actions-model")
 
-function checkIfActionIdExist() {
+function checkIfActionIdExists() {
     return (req, res, next) => {
         actions.get(req.params.id)
             .then((action) => {
@@ -8,7 +8,7 @@ function checkIfActionIdExist() {
                     req.action = action
                     next()
                 } else {
-                    res.status(404).json({
+                    res.status(400).json({
                         message: "Action not found.",
                     })
                 }
@@ -32,6 +32,6 @@ function checkActionData() {
 }
 
 module.exports = {
-    checkIfActionIdExist,
+    checkIfActionIdExists,
     checkActionData,
 }

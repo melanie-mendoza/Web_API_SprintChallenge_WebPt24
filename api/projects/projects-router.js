@@ -35,7 +35,7 @@ router.put("/api/projects/:id", checkProjectData(), checkIfProjectIdExists(), (r
             if (project) {
                 res.status(200).json(project)
             } else {
-                res.status(404).json({
+                res.status(400).json({
                     message:"The project could not be found.",
                 })
             }
