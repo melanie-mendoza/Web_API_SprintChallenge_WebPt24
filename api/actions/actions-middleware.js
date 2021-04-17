@@ -21,9 +21,9 @@ function checkIfActionIdExists() {
 
 function checkActionData() {
     return (req, res, next) => {
-        if (!req.body.project_id || !req.body.description) {
+        if (!req.body) {
             res.status(400).json({
-                message: "Missing project id or description.",
+                message: "Missing action id or description.",
             })
         } else {
             next()

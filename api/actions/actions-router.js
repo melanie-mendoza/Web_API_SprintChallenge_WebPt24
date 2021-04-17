@@ -9,28 +9,53 @@ const router = express.Router()
 router.get("/api/actions", (req, res, next) => {
     actions.get()
         .then((actions) => {
-            res.status(200).json(actions)
+            res.status(200).json(actions)    
         })
         .catch((error) => {
             next(error)
         })
 })
 
-router.get("/api/actions/:id", checkActionData(), (req, res) => {
-    res.status(200).json(req.action)
-})
-
-router.post("/api/actions", checkActionData(), (req, res) => {
-    actions.insert(req.body)
+router.get("/api/actions/:id", (req, res) => {
+    actions.get(req.params.id)
         .then((action) => {
-            res.status(201).json(action)
+            if (action) {
+                res.status(200).json(action)
+            } else {
+                res.status(404).json({
+                    message: "User not found.",
+                })
+            }
         })
         .catch((error) => {
-            next(error)
-        })
+            console.log(error)
+            res.status(500).json({
+                message: "Error",
+            })
+    })
 })
 
-router.put("/api/actions/:id", checkActionData(), checkIfActionComplete(), (req, res) => {
+
+router.post("/api/actions", (req, res) => {
+    if (!req.body) {
+        return res.status(400).json({
+            message: "Missing action.",
+        })
+    }
+
+    actions.insert(req.description)
+    .then((action) => {
+        res.status(201).json(action)
+    })
+    .catch((error) => {
+        console.log(error)
+        res.status(500).json({
+            message: "Error adding action.",
+        })
+    })
+})
+
+router.put("/api/actions/:id", checkActionData(), (req, res) => {
     actions.update(req.params.id, req.body)
     .then((action) => {
         if (action) {
@@ -46,7 +71,7 @@ router.put("/api/actions/:id", checkActionData(), checkIfActionComplete(), (req,
     })
 })
 
-router.delete("/api/actions/:id", checkIfActionIdExists(), (req, res) => {
+router.delete("/api/actions/:id", (req, res) => {
     actions.remove(req.params.id)
         .then((count) => {
             if (count > 0) {

@@ -19,7 +19,7 @@ router.get("/api/projects/:id", checkIfProjectIdExists(), (req, res) => {
     res.status(200).json(req.project)
 })
 
-router.post("/api/projects", checkProjectData(), (req, res) => {
+router.post("/api/projects", checkProjectData(), (req, res, next) => {
     projects.insert(req.body)
     .then((project) => {
         res.status(201).json(project)
@@ -45,7 +45,7 @@ router.put("/api/projects/:id", checkProjectData(), checkIfProjectIdExists(), (r
         })          
 })
 
-router.delete("api/projects/:id", checkIfProjectIdExists(), (req, res) => {
+router.delete("/api/projects/:id", (req, res) => {
     projects.remove(req.params.id)
         .then((count) => {
             if (count > 0) {
@@ -63,15 +63,24 @@ router.delete("api/projects/:id", checkIfProjectIdExists(), (req, res) => {
         })
 })
 
-// Retrieves the list of actions for a project. Sends an array of actions (or an empty array) as the body of the response.
-router.get("/api/projects/:id/actions", checkIfProjectIdExists(), (req, res) => {
-    projects.get(req.params.id)
-        .then((actions) => {
-            res.status(200).json(actions)
+router.get("/api/projects/:id/actions", (req, res) => {
+    projects.getProjectActions(req.params.id)
+        .then((action) => {
+            if (action) {
+                res.status(200).json(action)
+            } else {
+                res.status(404).json({
+                    message: "Action not found.",
+                })
+            }
         })
         .catch((error) => {
-            next(error)
+            console.log(error)
+            res.status(500).json({
+                message: "Error",
+            })
         })
 })
+
 
 module.exports = router
