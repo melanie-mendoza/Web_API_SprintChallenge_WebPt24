@@ -73,3 +73,5 @@ router.get("/api/projects/:id/actions", checkIfProjectIdExists(), (req, res) => 
             next(error)
         })
 })
+
+module.exports = router
