@@ -30,7 +30,7 @@ router.post("/api/actions", checkActionData(), (req, res) => {
         })
 })
 
-router.put("/api/actions/:id", checkActionData(), checkIfActionIdExists(), (req, res) => {
+router.put("/api/actions/:id", checkActionData(), checkIfActionComplete(), (req, res) => {
     actions.update(req.params.id, req.body)
     .then((action) => {
         if (action) {

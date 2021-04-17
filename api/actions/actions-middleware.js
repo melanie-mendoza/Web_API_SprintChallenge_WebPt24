@@ -33,5 +33,5 @@ function checkActionData() {
 
 module.exports = {
     checkIfActionIdExist,
-    checkIfActionIdExist,
+    checkActionData,
 }
