@@ -1,8 +1,8 @@
 // Write your "actions" router here!
 
-const express = require("express")
-const actions = require("./actions-model")
-const { checkIfActionIdExists, checkActionData } = require("./actions-middleware")
+const express = require("express");
+const actions = require("./actions-model");
+const { checkIfActionIdExists, checkActionData } = require("./actions-middleware");
 
 const router = express.Router()
 
@@ -37,13 +37,12 @@ router.get("/api/actions/:id", (req, res) => {
 
 
 router.post("/api/actions", (req, res) => {
-    if (!req.body) {
+    if (!req.body.project_id || !req.body.description || !req.body.notes) {
         return res.status(400).json({
             message: "Missing action.",
         })
     }
-
-    actions.insert(req.description)
+    actions.insert(req.body)
     .then((action) => {
         res.status(201).json(action)
     })
@@ -55,13 +54,14 @@ router.post("/api/actions", (req, res) => {
     })
 })
 
+
 router.put("/api/actions/:id", checkActionData(), (req, res) => {
     actions.update(req.params.id, req.body)
     .then((action) => {
         if (action) {
             res.status(200).json(action)
         } else {
-            res.status(400).json({
+            res.status(404).json({
                 message: "The action could not be found.",
             })
         }

@@ -19,13 +19,21 @@ router.get("/api/projects/:id", checkIfProjectIdExists(), (req, res) => {
     res.status(200).json(req.project)
 })
 
-router.post("/api/projects", checkProjectData(), (req, res, next) => {
+router.post("/api/projects", (req, res) => {
+    if (!req.body.name || !req.body.description) {
+        return res.status(400).json({
+            message: "Missing project name or description.",
+        })
+    }
     projects.insert(req.body)
-    .then((project) => {
-        res.status(201).json(project)
-    })
+        .then((project) => {
+            res.status(201).json(project)
+        })
     .catch((error) => {
-        next(error)
+        console.log(error)
+        res.status(500).json({
+            message: "Error adding project.",
+        })
     })
 })
 
@@ -35,7 +43,7 @@ router.put("/api/projects/:id", checkProjectData(), checkIfProjectIdExists(), (r
             if (project) {
                 res.status(200).json(project)
             } else {
-                res.status(400).json({
+                res.status(404).json({
                     message:"The project could not be found.",
                 })
             }

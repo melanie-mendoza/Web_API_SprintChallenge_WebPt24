@@ -21,7 +21,7 @@ function checkIfProjectIdExists() {
 
 function checkProjectData() {
     return (req, res, next) => {
-        if (!req.body) {
+        if (!req.body.name || !req.body.description) {
             res.status(400).json({
                 message: "Missing project name or description.",
             })
