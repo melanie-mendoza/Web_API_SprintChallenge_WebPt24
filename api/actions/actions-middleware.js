@@ -1,6 +1,6 @@
 const actions = require("./actions-model")
 
-function checkIfActionIdExist() {
+function checkIfActionIdExists() {
     return (req, res, next) => {
         actions.get(req.params.id)
             .then((action) => {
@@ -8,7 +8,7 @@ function checkIfActionIdExist() {
                     req.action = action
                     next()
                 } else {
-                    res.status(404).json({
+                    res.status(400).json({
                         message: "Action not found.",
                     })
                 }
@@ -21,9 +21,9 @@ function checkIfActionIdExist() {
 
 function checkActionData() {
     return (req, res, next) => {
-        if (!req.body.project_id || !req.body.description) {
+        if (!req.body.project_id || !req.body.description || !req.body.notes) {
             res.status(400).json({
-                message: "Missing project id or description.",
+                message: "Missing action id or description.",
             })
         } else {
             next()
@@ -32,6 +32,6 @@ function checkActionData() {
 }
 
 module.exports = {
-    checkIfActionIdExist,
-    checkIfActionIdExist,
+    checkIfActionIdExists,
+    checkActionData,
 }

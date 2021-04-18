@@ -8,7 +8,7 @@ function checkIfProjectIdExists() {
                     req.project = project
                     next()
                 } else {
-                    res.sratus(404).json({
+                    res.status(404).json({
                         message: "Project not found.",
                     })
                 }
